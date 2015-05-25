@@ -1,5 +1,5 @@
 ﻿
-var spreadsheet_id_test_data = "1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM";
+var default_spreadsheet_test_data = "1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM";
 
 function getUrlParameter(sParam)
 {
@@ -20,29 +20,29 @@ var spreadsheet_id = getUrlParameter("spreadsheet_id");
 if (spreadsheet_id == undefined)
 {
     alert("spreadsheet_id not found in URL, using default.");
-    spreadsheet_id = spreadsheet_id_test_data;
+    spreadsheet_id = default_spreadsheet_test_data;
+}
+
+// by default we sort by weekly scores
+var sort_on_total = false;
+var sort_on_val = getUrlParameter("sortOn");
+if (sort_on_val != undefined)
+{
+    if (sort_on_val == "total")
+    {
+        sort_on_total = true;
+    }
 }
 
 var spData = null;
 var teamData = null;
 var gameData = null;
 
-// You can only load one worksheet at a time :(
+// You can only load one worksheet at a time :( and we're "ready" when all 3 have come back.
 // this loads the first worksheet.
-$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/1/public/values?alt=json-in-script&callback=OnGoogleDocsCallback", function ()
-{
-    // Use anything defined in the loaded script...
-});
-
-$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/2/public/values?alt=json-in-script&callback=OnGoogleDocsCallbackTeamWorksheet", function ()
-{
-    // Use anything defined in the loaded script...
-});
-
-$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/3/public/values?alt=json-in-script&callback=OnGoogleDocsCallbackGameDataWorksheet", function ()
-{
-    // Use anything defined in the loaded script...
-});
+$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/1/public/values?alt=json-in-script&callback=OnGoogleDocsCallback", function (){});
+$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/2/public/values?alt=json-in-script&callback=OnGoogleDocsCallbackTeamWorksheet", function (){});
+$.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/3/public/values?alt=json-in-script&callback=OnGoogleDocsCallbackGameDataWorksheet", function (){});
 
 // these are mostly just arrays not objects for sorting regions
 var m_StudentData = [];
@@ -63,6 +63,7 @@ var m_LineGraphHeader = "the journey thus far";
 "CurrTotal":int
 "TeamName":String
 "WeeklyTotal":Array of ints
+WeeklyScore:int
 }
 */
 /*
@@ -71,6 +72,7 @@ var m_LineGraphHeader = "the journey thus far";
 "TeamName":String
 "Color":Uint
 "CurrTotal":int
+WeeklyScore:int
 "WeeklyIndividualScores":Array of ints
 "WeeklyTeamScores":Array of ints
 "Members":Array of References to "Student" objects,
@@ -265,7 +267,7 @@ function parseTeamData()
     }
     
     $(".winner-color-bg").css("background-color", m_TeamData[m_HighestTeamScoreIndex].Color);
-	$('#jqxChart').jqxChart({backgroundColor: m_TeamData[m_HighestTeamScoreIndex].Color});
+	//$('#jqxChart').jqxChart({backgroundColor: m_TeamData[m_HighestTeamScoreIndex].Color});
 }
 
 function AddStudent(rowData)
@@ -274,8 +276,15 @@ function AddStudent(rowData)
     var student_obj = {};
     student_obj.Name = rowData[0];
     student_obj.TeamName = rowData[1];
-    student_obj.CurrTotal = parseFloat(rowData[2]);
 
+    if (isNumber(rowData[2]))
+    {
+        student_obj.CurrTotal = parseFloat(rowData[2]);
+    }
+    else
+    {
+        student_obj.CurrTotal = 0;
+    }
     var scores_array = [];
     for (var i = 3; i < rowData.length; i++)
     {
@@ -308,6 +317,19 @@ function SortOnCurrTotal(a, b)
     return 0;
 }
 
+function SortOnWeekly(a, b)
+{
+    if (a.WeeklyScore < b.WeeklyScore)
+    {
+        return -1;
+    }
+    else if (a.WeeklyScore > b.WeeklyScore)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 function getTeamColorByName(teamName)
 {
     var num_teams = m_TeamData.length;
@@ -333,8 +355,7 @@ function setGameInfo() {
 
     var flavorOfTheWeek = m_FlavorData[m_WeekNumber];
     if (flavorOfTheWeek == null || flavorOfTheWeek == "") {
-        flavorOfTheWeek = "Uh-oh, it looks like your teacher hasn't filled out this week's game text.\
-        Darn it! I was really getting a kick out of those...";
+        flavorOfTheWeek = "Welcome to a new week...";
     }
     $("#InsertFlavorTextHere").replaceWith("<div class='week-summary'>" + flavorOfTheWeek + "</div>");
     $("#InsertIndividualSectionHere").replaceWith("<div class='section-header'>--- " + m_IndividualSectionHeader + " ---</div>");
@@ -384,8 +405,14 @@ function buildIndividualRankings()
 {
     var parent_elem = $("#InsertPlayerInfoHere");
     var num_students = m_StudentData.length;
-
-    m_StudentData.sort(SortOnCurrTotal);
+    if (sort_on_total)
+    {
+        m_StudentData.sort(SortOnCurrTotal);
+    }
+    else
+    {
+        m_StudentData.sort(SortOnWeekly);
+    }
     for (var i = 0; i < num_students; ++i)
     {
         var student = m_StudentData[i];
@@ -406,18 +433,6 @@ function buildIndividualRankings()
 
         parent_elem.prepend(individual_elem);
     }
-    
-    /*<div class="player-info-group">
-    <div class="team-indicator"></div>
-
-    <div>
-        <span class="player-name">ALEXAVIER. </span>
-        <span class="player-team">healer. guild raplapla.</span>
-        <br>
-        <span class="player-score">5600 </span>
-        <span class="player-delta">// (+500)</span>
-    </div>
-</div>*/
 }
 
 function BulidClanRankings()
@@ -425,7 +440,14 @@ function BulidClanRankings()
     var parent_elem = $("#InsertGroupInfoHere");
     var num_teams = m_TeamData.length;
 
-    m_TeamData.sort(SortOnCurrTotal);
+    if (sort_on_total)
+    {
+        m_TeamData.sort(SortOnCurrTotal);
+    }
+    else
+    {
+        m_TeamData.sort(SortOnWeekly);
+    }
     for (var i = 0; i < num_teams; ++i)
     {
         var team = m_TeamData[i];
@@ -453,9 +475,13 @@ function BulidClanRankings()
 
         parent_elem.prepend(individual_elem);
 
-        //var blah = individual_elem.css("height");
-        //individual_elem.css("height", "100px");
-
+        var elem_height = individual_elem.height();
+        // basically < 4 names for our nondynamic setup
+        var min_height = 337;
+        if (elem_height < min_height)
+        {
+            individual_elem.css("height", min_height + "px");
+        }
     }
 }
 
