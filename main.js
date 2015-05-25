@@ -1,4 +1,10 @@
 ﻿
+
+/*
+    Created as part of "School House GameJam" weekend. 
+    Docs here: https://docs.google.com/document/d/1pePgxs7I0XEJEoTOtrzYZt6AgqvsJHpWtLYUByde_fE
+*/
+
 var default_spreadsheet_test_data = "1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM";
 
 function getUrlParameter(sParam)
@@ -48,6 +54,9 @@ $.getScript("https://spreadsheets.google.com/feeds/cells/" + spreadsheet_id + "/
 var m_StudentData = [];
 var m_TeamData = [];
 var m_FlavorData = [];
+var m_HighestTeamScore = 0;
+var m_HighestTeamScoreIndex = 0;
+var m_WeekNumber = 0;
 
 var m_GameTitle = "NAME OF THE GAME.";
 var m_GameSubtitle = "PERIOD WHATEVER.";
@@ -79,8 +88,6 @@ WeeklyScore:int
 "Inventory":int
 }
 */
-
-
 function OnGoogleDocsCallback(json)
 {
     spData = json.feed.entry;
@@ -114,9 +121,45 @@ function isNumber(n)
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-var m_HighestTeamScore = 0;
-var m_HighestTeamScoreIndex = 0;
-var m_WeekNumber = 0;
+function SortOnCurrTotal(a, b)
+{
+    if (a.CurrTotal < b.CurrTotal)
+    {
+        return -1;
+    }
+    else if (a.CurrTotal > b.CurrTotal)
+    {
+        return 1;
+    }
+    return 0;
+}
+function SortOnWeekly(a, b)
+{
+    if (a.WeeklyScore < b.WeeklyScore)
+    {
+        return -1;
+    }
+    else if (a.WeeklyScore > b.WeeklyScore)
+    {
+        return 1;
+    }
+    return SortOnCurrTotal(a, b);
+}
+
+function getTeamColorByName(teamName)
+{
+    var num_teams = m_TeamData.length;
+    for (var i = 0; i < num_teams; ++i)
+    {
+        if (m_TeamData[i].TeamName == teamName)
+        {
+            return m_TeamData[i].Color;
+        }
+    }
+    return 0;
+}
+
+
 function AddTeam(rowData)
 {
     var team_obj = {};
@@ -148,6 +191,40 @@ function AddTeam(rowData)
     team_obj.ScoreHistory = scores_array;
 
     m_TeamData.push(team_obj);
+}
+
+function AddStudent(rowData)
+{
+    //Student name	Team Name	Total Pts	1	2
+    var student_obj = {};
+    student_obj.Name = rowData[0];
+    student_obj.TeamName = rowData[1];
+
+    if (isNumber(rowData[2]))
+    {
+        student_obj.CurrTotal = parseFloat(rowData[2]);
+    }
+    else
+    {
+        student_obj.CurrTotal = 0;
+    }
+    var scores_array = [];
+    for (var i = 3; i < rowData.length; i++)
+    {
+        if (isNumber(rowData[i]))
+        {
+            scores_array.push(rowData[i]);
+        }
+    }
+
+    // set the week based on the furthest students progress
+    if (scores_array.length > m_WeekNumber + 1)
+    {
+        m_WeekNumber = scores_array.length - 1;
+    }
+
+    student_obj.WeeklyTotals = scores_array;
+    m_StudentData.push(student_obj);
 }
 
 // Game Title, Game Subtitle, Round Type, Individual Section Header, Team Section Header, Line Graph Section Header
@@ -188,7 +265,6 @@ function parseGameData()
             //alert(val);
         }
     }
-
 }
 
 function parseFlavorData()
@@ -209,8 +285,8 @@ function parseFlavorData()
             //alert("skipped " + cell.row + " " + cell.col);
         }
     }
-
 }
+
 // Team Name,	Team Color,	Notes Shield Inventory,	Team coins total,,		1 actions descriptions,	1 ptschanged,	1 indvidual pts combined up to this week,	1 team pts,
 // Students data must be parsed first
 function parseTeamData()
@@ -270,79 +346,6 @@ function parseTeamData()
 	//$('#jqxChart').jqxChart({backgroundColor: m_TeamData[m_HighestTeamScoreIndex].Color});
 }
 
-function AddStudent(rowData)
-{
-    //Student name	Team Name	Total Pts	1	2
-    var student_obj = {};
-    student_obj.Name = rowData[0];
-    student_obj.TeamName = rowData[1];
-
-    if (isNumber(rowData[2]))
-    {
-        student_obj.CurrTotal = parseFloat(rowData[2]);
-    }
-    else
-    {
-        student_obj.CurrTotal = 0;
-    }
-    var scores_array = [];
-    for (var i = 3; i < rowData.length; i++)
-    {
-        if (isNumber(rowData[i]))
-        {
-            scores_array.push(rowData[i]);
-        }
-    }
-
-    // set the week based on the furthest students progress
-    if (scores_array.length > m_WeekNumber + 1)
-    {
-        m_WeekNumber = scores_array.length - 1;
-    }
-
-    student_obj.WeeklyTotals = scores_array;
-    m_StudentData.push(student_obj);
-}
-
-function SortOnCurrTotal(a, b)
-{
-    if (a.CurrTotal < b.CurrTotal)
-    {
-        return -1;
-    }
-    else if (a.CurrTotal > b.CurrTotal)
-    {
-        return 1;
-    }
-    return 0;
-}
-
-function SortOnWeekly(a, b)
-{
-    if (a.WeeklyScore < b.WeeklyScore)
-    {
-        return -1;
-    }
-    else if (a.WeeklyScore > b.WeeklyScore)
-    {
-        return 1;
-    }
-    return 0;
-}
-
-function getTeamColorByName(teamName)
-{
-    var num_teams = m_TeamData.length;
-    for (var i = 0; i < num_teams; ++i)
-    {
-        if (m_TeamData[i].TeamName == teamName)
-        {
-            return m_TeamData[i].Color;
-        }
-    }
-    return 0;
-}
-
 // set the week display
 function setGameInfo() {
     var parent_elem = $("#InsertGameInfoHere");
@@ -368,8 +371,8 @@ function fillInTheDots() {
     var parent_elem = $("#InsertDotsHere");
     var class_pastweek = "egg-hatched";
     var class_futureweek = "egg-unhatched";
-    var dotsPerRow = 8;
-    var totalWeeksInGame = 16;
+    var dotsPerRow = 5;
+    var totalWeeksInGame = 10;
 
     var rowCounter = 0;
     for (var i=0; i<totalWeeksInGame; i++)
@@ -490,7 +493,7 @@ function buildLineChart()
     var data = [];
     var series_data = [];
 
-    for (var i = 0; i < m_WeekNumber; ++i)
+    for (var i = 0; i < (m_WeekNumber + 1); ++i)
     {
         data[i] = { x: i };
     }
@@ -501,12 +504,10 @@ function buildLineChart()
     {
         var team = m_TeamData[i];
         var score_count = team.ScoreHistory.length;
-
-        for (var j = 0; j < score_count && j < m_WeekNumber; ++j)
+        for (var j = 0; j < score_count && j < (m_WeekNumber +1); ++j)
         {
             data[j][team.TeamName] = team.ScoreHistory[j];
         }
-
         var team_info = {};
         team_info.dataField = team.TeamName;
         team_info.displayText = team.TeamName;
@@ -617,8 +618,6 @@ function buildLineChart()
             }
             ]
     };
-
-
     $('#jqxChart').jqxChart(settings);
 }
 
