@@ -1,0 +1,263 @@
+﻿  table {
+      border-collapse: collapse;
+      margin-left: auto;
+      margin-right: auto;
+      /*width: 100%;*/
+      /*padding: .5em;*/
+  }
+  th, td {
+      /*border: thin solid black;*/
+      padding: .65em;
+  }
+  tr.head th, tr.head td {
+      background-color: #EDEDED;
+      border-bottom: 4px double black;
+  }
+  h1 {
+      text-align: center;
+  }
+
+
+  html {
+    height: 100%;
+    padding: 20px;
+  }
+
+body {
+  position: relative;
+  top:2em;
+  bottom:-10em;
+  background: white;
+  font-family: 'Quicksand', sans-serif;
+  color: #333333;
+  margin-left: auto;
+  margin-right: auto;
+  width: 22em;
+}
+
+/*EDGY MODE STARTS HERE*/
+
+/*body {
+  border-left: .1875em solid #333333;
+  border-right: .1875em solid #333333;
+}
+
+.real-body {
+  border-left: .1875em solid #333333;
+  border-right: .1875em solid #333333;
+  background:#ffffff;
+}
+
+.game-subtitle {
+  color: #999999;
+}
+
+.week-display {
+  color: #777777;
+}
+
+.team-shields, .team-member-info, .team-member-delta {
+  color: #808080;
+}*/
+
+/*EDGY MODE ENDS HERE*/
+
+.real-body {
+  padding: 1em;
+  margin-left: -.1875em;
+  margin-right: -.1875em;
+  position: relative;
+  top:0em;
+  margin-top: -3em; /*this number is good to play with for height*/
+  overflow: hidden;
+}
+
+.game-title {
+   font-family: 'Roboto Slab', serif;
+   font-size: 3.0625em;
+   color: #333333;
+   line-height: 80%;
+}
+
+
+
+.game-subtitle {
+   font-family: 'Roboto Slab', serif;
+   font-size: 2.7em;
+   margin-top: 0.05em;
+   margin-bottom: .03em;
+   line-height: 80%;
+}
+
+.week-display {
+   font-family: 'Roboto Slab', serif;
+   font-size: 2.25em;
+   margin-top: 0em;
+   margin-bottom: .6em;
+   line-height: 90%;
+}
+
+.game-title, .game-subtitle, .week-display {
+
+}
+
+.egg-table {
+  border: 0em;
+  padding: 0em;
+  margin: 0em;
+}
+
+.egg-unhatched {
+  /*border-radius: 20em;
+  border: .3em solid #333333;
+  width: 0em;
+  height: 0em;*/
+  /*margin: 1em;*/
+  /*float:left;*/
+}
+
+.egg-hatched, .egg-unhatched {
+border-radius:20em;
+border: .1875em solid #333333;
+width:.8225em;
+height: .8225em;
+/*margin:.475em;*/
+float:left;
+}
+
+.egg-hatched {
+  background: #f35473;
+}
+
+.egg-unhatched {
+  background: white;
+}
+
+.section-header {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: -.3em;
+  margin-bottom: 1em;
+}
+
+* {
+/*border: 1px solid black;*/
+}
+
+.week-summary {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.winner-color-bg {
+  background: #f35473;
+}
+
+.line-seperator {
+  height: .37em;
+  width: 18em;
+  border: .28em solid #333333;
+  margin-top: 1.8em;
+  margin-bottom: 1.8em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.side-bar {
+  display: none;
+  flex: 1 1 auto;
+  position: relative;
+  left: -1em;
+  /*top: -2em;*/
+  width: 1em;
+  overflow: hidden;
+  background: #f35473; /*placeholder color*/
+  border-right: .1875em solid #333333;
+  border-left: 1em solid #f35473;
+}
+
+.team-indicator {
+  height:2.25em;
+}
+
+.team-indicator-big {
+  height:11.35em;
+}
+
+.team-indicator, .team-indicator-big {
+    width: .5em;
+  border: .1875em solid #333333;
+  float: left;
+  background: #f35473; /*placeholder color*/
+  margin-left: .9em;
+  margin-right: .9em;
+  margin-top: .2em;
+}
+
+.player-name {
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.player-team {
+  font-size: 1em;
+}
+
+.player-score {
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+.player-delta {
+  font-size: 1.75em;
+  font-weight: 300;
+}
+
+.player-score, .player-delta {
+  padding-top: -.8em;
+  padding-bottom: -.8em;
+  margin-top: -.8em;
+  margin-bottom: -.8em;
+}
+
+.player-info-group {
+  
+}
+
+.team-name {
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+.team-score {
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+.team-delta {
+  font-size: 1.75em;
+  font-weight: 400;
+}
+
+.team-shields {
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
+.team-member-info {
+
+}
+
+.team-member-delta {
+  font-weight: 300;
+}
+
+.jqx-chart-axis-text {
+  color: #00ff33;
+  font-weight: 400;
+  font-size: .8em;
+  font-family: 'Roboto Slab';
+}
