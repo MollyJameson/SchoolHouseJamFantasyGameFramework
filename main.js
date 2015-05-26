@@ -215,6 +215,10 @@ function AddStudent(rowData)
         {
             scores_array.push(rowData[i]);
         }
+        else
+        {
+            scores_array.push(0);
+        }
     }
 
     // set the week based on the furthest students progress
@@ -642,7 +646,8 @@ function readData(parent)
             rowData = [];
             row++;
         }
-        rowData.push(val);
+        rowData[cell.col - 1] = val;
+        //rowData.push(val);
     }
     AddStudent(rowData);
 
