@@ -167,6 +167,14 @@ function AddTeam(rowData)
     team_obj.Color = rowData[1];
     team_obj.Inventory = rowData[2];
     team_obj.CurrTotal = parseFloat(rowData[3]);
+
+    if (!isNumber(rowData[3]))
+    {
+        // TODO: we sometimes get "Loading..." instead of a number here. Figure out how to fix this on the spreadshet side...
+        team_obj.CurrTotal = 0;
+        console.log("CurrTotal for teams is NaN we got instead " + rowData[3] + " length: " + rowData.length);
+        console.log(rowData);
+    }
     team_obj.WeeklyScore = 0;
 
     if (team_obj.CurrTotal > m_HighestTeamScore)
