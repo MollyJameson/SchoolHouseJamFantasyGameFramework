@@ -345,13 +345,20 @@ function parseTeamData()
         student.WeeklyScore = 0;
         if (student.WeeklyTotals.length > m_WeekNumber)
         {
-            student.WeeklyScore = student.WeeklyTotals[m_WeekNumber];
+            student.WeeklyScore = parseFloat(student.WeeklyTotals[m_WeekNumber]);
         }
         var team = TeamDictionary[student.TeamName];
 
-        team.Members.push(student);
+        if (team)
+        {
+            team.Members.push(student);
 
-        team.WeeklyScore += parseFloat(student.WeeklyScore);
+            team.WeeklyScore += parseFloat(student.WeeklyScore);
+        }
+        else
+        {
+            console.log("tried to add a non existing team from a student: " + student.Name + " on " + student.TeamName);
+        }
     }
     
     $(".winner-color-bg").css("background-color", m_TeamData[m_HighestTeamScoreIndex].Color);
