@@ -16,7 +16,7 @@ Setting up the framework
 
 3. In your copied spreadsheet highlight the ID from the URL. The screenshot below show which part of the URL is your **id**.![image alt text](docs/image_2.png)
 
-    1. Paste that id into the end of this address "http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**" so it should end up something that looks like this example: [http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM](http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM)  but with your ID to read from your spreadsheet. 
+    1. Paste that id into the end of this address "http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**" so it should end up something that looks like this example: [http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM](http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM)  but with your ID to read from your spreadsheet. 
 
     2. Keep this address. It will be the link you visit to view the spreadsheet data every week.
 
@@ -40,11 +40,11 @@ Setting up the framework
 
     1. *Sample: The dastardly Raplapla Guild has raided the amicable Papillon Guild, taking 500 of their coins! Utterly ruthless. Please, someone, put them in their place.*
 
-5. For each class to see the data just show the the site on "http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**" This website will show the students and teams sorted by their weekly score. The students can even [bookmark this on their phone](http://www.icaew.com/en/adding-an-iphone-shortcut) if they want to access it later if you post the address somewhere for them.
+5. For each class to see the data just show the the site on "http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**" This website will show the students and teams sorted by their weekly score. The students can even [bookmark this on their phone](http://www.icaew.com/en/adding-an-iphone-shortcut) if they want to access it later if you post the address somewhere for them.
 
 **AT THE END OF THE QUARTER:**
 
-1. You can view the whole game's overview sorted by total points (instead of weekly) by going to: "http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**&sortOn=total"
+1. You can view the whole game's overview sorted by total points (instead of weekly) by going to: "http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=**ID**&sortOn=total"
 
     1. Feel free to rearrange the teams as you see which where the highest performers consistently.
 
@@ -52,7 +52,7 @@ Setting up the framework
 
 spreadsheet data: [https://docs.google.com/spreadsheets/d/1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM](https://docs.google.com/spreadsheets/d/1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM) 
 
-frontend: [http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM](http://ultrarat.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM)
+frontend: [http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM](http://MollyJameson.github.io/SchoolHouseJamFantasyGameFramework/?spreadsheet_id=1FZRdBHB_vE_OqBq_NpHyDg__PebF7_lD6hy1FGP4XLM)
 
 **Other resources**:
 
@@ -60,7 +60,7 @@ If you don't need something so personalized and want the students to track thems
 
 **If you want to contribute,  have found a bug, or just want more info:**
 
-Project code: [https://github.com/UltraRat/SchoolHouseJamFantasyGameFramework](https://github.com/UltraRat/SchoolHouseJamFantasyGameFramework)
+Project code: [https://github.com/MollyJameson/SchoolHouseJamFantasyGameFramework](https://github.com/MollyJameson/SchoolHouseJamFantasyGameFramework)
 
 E-mail: [MollyAJameson@gmail.com](mailto:MollyAJameson@gmail.com)
 
